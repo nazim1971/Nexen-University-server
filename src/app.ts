@@ -25,7 +25,7 @@ class Application {
     this.App.get('/', (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
-        message: 'Backend Starter on Fire 🔥🔥🔥',
+        message: 'Nexen-Univesity on Fire 🔥🔥🔥',
       });
     });
   }
