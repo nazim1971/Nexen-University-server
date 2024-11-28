@@ -43,6 +43,9 @@ class Config {
   public get slat(): number {
     return Number(process.env.BCRYPT_SALT_ROUNDS)
   }
+  public get password(): string {
+    return String(process.env.DEFAULT_PASS)
+  }
 }
 
 export default new Config();

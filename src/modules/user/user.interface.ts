@@ -6,3 +6,9 @@ export type Tuser = {
   status: 'in-progress' | 'blocked';
   isDeleted: boolean;
 };
+
+
+export type TnewUser = {
+  role: string;
+  password: string;
+}
