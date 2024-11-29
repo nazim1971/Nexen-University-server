@@ -1,27 +1,38 @@
 import config from '../../config';
 import { TStudent } from '../student/student.interface';
-import { TnewUser } from './user.interface';
+import { Student } from '../student/student.model';
+import { Tuser } from './user.interface';
 import { User } from './user.model';
 
 const createStudentIntoDB = async (password: string, studentData: TStudent) => {
-  //   // Build in Static method
-  // if (await Student.isUserExist(studentData.id)) {
-  //   throw new Error('User Already exist');
-  // }
 
-  let user: TnewUser = {};
+  // create a user object
+  const userData: Partial<Tuser> = {};
 
   //if psssword is not give , use deafult password
 
-  user.password = password || config.password as string  
+  userData.password = password || (config.password as string)  
 
+  userData.role = 'student';
 
+  // set manuaaly generated id
+  userData.id = '20302106936'
 
-  user.role = 'student';
+  //create a userData 
 
-  const result = await User.create(password, studentData);
+  
 
-  return result;
+  const newUser = await User.create(userData);
+
+  //create a student 
+  if(Object.keys(newUser).length){
+    studentData.id = newUser.id;
+    studentData.user = newUser._id;
+
+    const newStudent = await Student.create(studentData);
+    return newStudent;
+  }
+  
 };
 
 export const UserService = {
