@@ -172,23 +172,23 @@ studentSchema.virtual('fullName').get(function () {
 
 //Query middlewire
 
-function excludeDeleted(this: Query<unknown, Document>,next: Function) {
-    this.find({ isDeleted: { $ne: true } });
-    next();
-  }
+// function excludeDeleted(this: Query<unknown, Document>,next: Function) {
+//     this.find({ isDeleted: { $ne: true } });
+//     next();
+//   }
  
-  studentSchema.pre('find', excludeDeleted);
-  studentSchema.pre('findOne', excludeDeleted);
-  studentSchema.pre('aggregate', function (next) {
-    this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-    next();
-  });
+//   studentSchema.pre('find', excludeDeleted);
+//   studentSchema.pre('findOne', excludeDeleted);
+//   studentSchema.pre('aggregate', function (next) {
+//     this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+//     next();
+//   });
 
-  //creating a custom static method
-  studentSchema.statics.isUserExist = async function (id: string) {
-    const existingUser = await Student.findOne({ id });
-    return existingUser;
-  };
+//   //creating a custom static method
+//   studentSchema.statics.isUserExist = async function (id: string) {
+//     const existingUser = await Student.findOne({ id });
+//     return existingUser;
+//   };
   
 
 export const Student = model<TStudent, StudentModel>('Student', studentSchema);
