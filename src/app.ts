@@ -1,8 +1,8 @@
-// application.ts
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { StudentRoutes } from './modules/student/student.route';
 import { UserRoutes } from './modules/user/user.route';
+import globalErrorHandler from './middlewires/globalErrorHandler';
 
 class Application {
   public App: express.Application;
@@ -29,6 +29,9 @@ class Application {
         message: 'Nexen-Univesity on Fire 🔥🔥🔥',
       });
     });
+
+    //Global error handel
+    this.App.use(globalErrorHandler);
   }
 }
 

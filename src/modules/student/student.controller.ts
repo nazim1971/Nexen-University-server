@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { StudentServices } from "./student.service";
 
 
@@ -20,7 +20,7 @@ const getAllStudent = async (req: Request, res: Response) => {
   }
 };
 
-const getSingleStudent = async (req: Request, res: Response) => {
+const getSingleStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { studentId } = req.params;
     const result = await StudentServices.getSingleStudentFromDB(studentId);
@@ -30,12 +30,13 @@ const getSingleStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    const error = err as Error;
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
+    // const error = err as Error;
+    // res.status(500).json({
+    //   success: false,
+    //   message: error.message || 'Something went wrong',
+    //   error: error,
+    // });
+    next(err)
   }
 };
 

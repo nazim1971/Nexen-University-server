@@ -16,7 +16,7 @@ const createStudentIntoDB = async (password:  string = config.password, studentD
   userData.role = 'student';
 
   // set manuaaly generated id
-  userData.id = '20302106938'
+  userData.id = '20302106935'
 
   //create a userData 
 
