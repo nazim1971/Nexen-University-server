@@ -1,4 +1,4 @@
-import { model, Query, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import {
   StudentModel,
   TGuardian,
@@ -84,11 +84,6 @@ const studentSchema = new Schema<TStudent>({
     required: [true, 'User id is required'],
     unique: true,
     ref: 'User',
-  },
-  password: {
-    type: String,   
-    required: [true, 'Password is required'],  
-    minlength: [8, 'Password must be at least 8 characters long'],
   },
   name: {
     type: userNameSchema,

@@ -4,22 +4,21 @@ import { Student } from '../student/student.model';
 import { Tuser } from './user.interface';
 import { User } from './user.model';
 
-const createStudentIntoDB = async (password: string, studentData: TStudent) => {
+const createStudentIntoDB = async (password:  string = config.password, studentData: TStudent) => {
 
   // create a user object
   const userData: Partial<Tuser> = {};
 
   //if psssword is not give , use deafult password
 
-  userData.password = password || (config.password as string)  
+  userData.password = password 
 
   userData.role = 'student';
 
   // set manuaaly generated id
-  userData.id = '20302106936'
+  userData.id = '20302106938'
 
   //create a userData 
-
 
   
 
@@ -31,7 +30,6 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
     studentData.user = newUser?._id;
     
     const newStudent = await Student.create(studentData);
-    console.log(newStudent);
     return newStudent;
   }
   

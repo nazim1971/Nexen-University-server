@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 import { Tuser } from "./user.interface";
-
+import config from "../../config";
+import bcrypt from 'bcrypt'
 
 
 const userSchema = new Schema<Tuser>(
@@ -35,5 +36,22 @@ const userSchema = new Schema<Tuser>(
       timestamps: true,
     },
   );
+
+  userSchema.pre('save', async function (next) {
+    
+    // const user = this; // doc
+    // hashing password and save into DB
+    this.password = await bcrypt.hash(
+     this.password,
+      Number(config.slat),
+    );
+    next();
+  });
+  
+  // set '' after saving password
+  userSchema.post('save', function (doc, next) {
+    doc.password = '';
+    next();
+  });
 
   export const User = model<Tuser>('User', userSchema)

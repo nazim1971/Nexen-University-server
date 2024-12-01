@@ -44,7 +44,7 @@ class Config {
     return Number(process.env.BCRYPT_SALT_ROUNDS)
   }
   public get password(): string {
-    return String(process.env.DEFAULT_PASS)
+    return String(process.env.DEFAULT_PASS as string)
   }
 }
 
