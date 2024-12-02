@@ -3,6 +3,7 @@ import cors from 'cors';
 import { StudentRoutes } from './modules/student/student.route';
 import { UserRoutes } from './modules/user/user.route';
 import globalErrorHandler from './middlewires/globalErrorHandler';
+import notFound from './middlewires/notFound';
 
 class Application {
   public App: express.Application;
@@ -32,6 +33,9 @@ class Application {
 
     //Global error handel
     this.App.use(globalErrorHandler);
+
+    //Not found
+    this.App.use(notFound)
   }
 }
 
