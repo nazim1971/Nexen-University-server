@@ -1,9 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { StudentRoutes } from './modules/student/student.route';
-import { UserRoutes } from './modules/user/user.route';
-import globalErrorHandler from './middlewires/globalErrorHandler';
-import notFound from './middlewires/notFound';
+import globalErrorHandler from './app/middlewires/globalErrorHandler';
+import notFound from './app/middlewires/notFound';
+import router from './app/routes';
 
 class Application {
   public App: express.Application;
@@ -21,8 +20,7 @@ class Application {
 
   private routes() {
     //Application Routes
-    this.App.use('/api/v1/student', StudentRoutes);
-    this.App.use('/api/v1/user', UserRoutes);
+    this.App.use('/api/v1', router);
 
     this.App.get('/', (req: Request, res: Response) => {
       res.status(200).json({
@@ -35,7 +33,7 @@ class Application {
     this.App.use(globalErrorHandler);
 
     //Not found
-    this.App.use(notFound)
+    this.App.use(notFound);
   }
 }
 
