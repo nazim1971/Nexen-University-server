@@ -1,9 +1,10 @@
 import httpStatus from 'http-status';
-import { Request, Response } from 'express';
+import { RequestHandler} from 'express';
 import { UserService } from './user.service';
 import { sendResponse } from '../../utils/sendResponse';
 
-const createStudent = async (req: Request, res: Response) => {
+
+const createStudent: RequestHandler = async (req, res) => {
   try {
     const { password, student: studentData } = req.body;
 

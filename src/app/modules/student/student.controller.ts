@@ -1,8 +1,12 @@
-import { NextFunction, Request, Response } from "express";
+import {RequestHandler } from "express";
 import { StudentServices } from "./student.service";
 
 
-const getAllStudent = async (req: Request, res: Response) => {
+const catchAsync = fun =>{
+ Promise.resolve(fun(req,res,next)).catch(err=> next(err))
+}
+
+const getAllStudent: RequestHandler = catchAsync(async (req, res, next) => {
   try {
     const result = await StudentServices.getAllStudentsFromDB();
     res.status(200).json({
@@ -11,16 +15,11 @@ const getAllStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    const error = err as Error;
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
+    next(err)
   }
-};
+})
 
-const getSingleStudent = async (req: Request, res: Response, next: NextFunction) => {
+const getSingleStudent: RequestHandler = async (req, res, next) => {
   try {
     const { studentId } = req.params;
     const result = await StudentServices.getSingleStudentFromDB(studentId);
@@ -30,17 +29,11 @@ const getSingleStudent = async (req: Request, res: Response, next: NextFunction)
       data: result,
     });
   } catch (err) {
-    // const error = err as Error;
-    // res.status(500).json({
-    //   success: false,
-    //   message: error.message || 'Something went wrong',
-    //   error: error,
-    // });
     next(err)
   }
 };
 
-const deleteStudent = async (req: Request, res: Response) => {
+const deleteStudent: RequestHandler = async (req, res, next) => {
   try {
     const { studentId } = req.params;
     const result = await StudentServices.deleteStudentFromDB(studentId);
@@ -50,12 +43,7 @@ const deleteStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    const error = err as Error;
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
+   next(err)
   }
 };
 
