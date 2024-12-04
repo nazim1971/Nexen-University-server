@@ -7,10 +7,9 @@ export const validateMiddlewire = (schema: AnyZodObject) => {
       //VALIDATION check
       //if everything all right next() ->
       try {
-        await schema.parseAsync({
-          body: req.body,
-        });
-        return next();
+        //console.log(req.body);
+        await schema.parseAsync(req.body);
+         next();
       } catch (error) {
         next(error);
       }
