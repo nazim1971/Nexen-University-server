@@ -13,20 +13,20 @@ import {
 const createAcademicValidationSchema = z.object({
   body: z.object({
     name: z.enum(
-      academicSemesterNames as [
+      [...academicSemesterNames] as [
         TAcademicSemesterName,
         ...TAcademicSemesterName[],
       ],
     ),
     code: z.enum(
-      academicSemesterCodes as [
+      [...academicSemesterCodes] as [
         TAcademicSemesterCode,
         ...TAcademicSemesterCode[],
       ],
     ),
-    year: z.date(),
-    startMonth: z.enum(academicSemesterMonths as [TMonths, ...TMonths[]]),
-    endMonth: z.enum(academicSemesterMonths as [TMonths, ...TMonths[]]),
+    year: z.string(),
+    startMonth: z.enum([...academicSemesterMonths] as [TMonths, ...TMonths[]]),
+    endMonth: z.enum([...academicSemesterMonths] as [TMonths, ...TMonths[]]),
   }),
 });
 
