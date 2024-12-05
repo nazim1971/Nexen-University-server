@@ -20,12 +20,14 @@ const createStudentIntoDB = async (
 
   userData.role = 'student';
 
-  // year semester code 4 degit number
-
 
   const admissionSemester = await academicSemester.findById(
     payload.admissionSemester,
   );
+
+  if (!admissionSemester) {
+    throw new Error('Admission semester not found');
+  }
 
   userData.id = await generateStudentId(admissionSemester);
 
