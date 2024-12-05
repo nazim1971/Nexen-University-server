@@ -28,8 +28,27 @@ const createAcademicValidationSchema = z.object({
   endMonth: z.enum([...academicSemesterMonths] as [TMonths, ...TMonths[]])
 });
 
+const updateAcademicValidationSchema = z.object({
+  name: z.enum(
+    [...academicSemesterNames] as [
+      TAcademicSemesterName,
+      ...TAcademicSemesterName[],
+    ],
+  ).optional(),
+  code: z.enum(
+    [...academicSemesterCodes] as [
+      TAcademicSemesterCode,
+      ...TAcademicSemesterCode[],
+    ],
+  ).optional(),
+  year: z.string().optional(),
+  startMonth: z.enum([...academicSemesterMonths] as [TMonths, ...TMonths[]]).optional(),
+  endMonth: z.enum([...academicSemesterMonths] as [TMonths, ...TMonths[]]).optional()
+});
+
 export const AcademicSemesterValitions = {
   createAcademicValidationSchema,
+  updateAcademicValidationSchema
 };
 
 export type TacademicSemesterCodeMapper = {
