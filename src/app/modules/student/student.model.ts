@@ -140,13 +140,11 @@ const studentSchema = new Schema<TStudent>({
   profileImage: {
     type: String,
   },
-  isActive: {
-    type: String,
-    enum: {
-      values: ['active', 'blocked'],
-      message: 'Status must be either active or blocked',
-    },
-    default: 'active',
+  admissionSemester:{
+    type: Schema.Types.ObjectId,
+    required: [true, 'User id is required'],
+    unique: true,
+    ref: 'AcademicSemester',
   },
   isDeleted: {
     type: Boolean,
