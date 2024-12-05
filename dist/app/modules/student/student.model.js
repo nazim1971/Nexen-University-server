@@ -131,13 +131,9 @@ const studentSchema = new mongoose_1.Schema({
     profileImage: {
         type: String,
     },
-    isActive: {
-        type: String,
-        enum: {
-            values: ['active', 'blocked'],
-            message: 'Status must be either active or blocked',
-        },
-        default: 'active',
+    admissionSemester: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicSemester',
     },
     isDeleted: {
         type: Boolean,

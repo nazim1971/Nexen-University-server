@@ -39,7 +39,7 @@ exports.createStudentValidationSchema = zod_1.z.object({
         permanentAddress: zod_1.z.string(),
         guardian: guardianValidationSchema,
         localGuardian: localGuardianValidationSchema,
-        // admissionSemester: z.string(),
+        admissionSemester: zod_1.z.string(),
         profileImg: zod_1.z.string(),
     }),
 });

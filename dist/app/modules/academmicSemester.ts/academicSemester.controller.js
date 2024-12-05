@@ -26,6 +26,38 @@ const createAcademicSemester = (0, catchAsync_1.catchAsync)((req, res) => __awai
         data: result,
     });
 }));
+const singleAcademicSemester = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semesterId } = req.params;
+    const result = yield academicSemester_service_1.AcademicSemesterServices.singleAcademicSemester(semesterId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Academic Semester is revert successfully',
+        data: result,
+    });
+}));
+const allAcademicSemester = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_service_1.AcademicSemesterServices.getAllAcademicSemester();
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Academic Semester is revert successfully',
+        data: result,
+    });
+}));
+const updateAcademicSemester = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semesterId } = req.params;
+    const result = yield academicSemester_service_1.AcademicSemesterServices.updateSingleAcademicSemester(semesterId, req.body);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'Academic Semester is Updated successfully',
+        data: result,
+    });
+}));
 exports.AcademicSemesterController = {
-    createAcademicSemester
+    createAcademicSemester,
+    singleAcademicSemester,
+    allAcademicSemester,
+    updateAcademicSemester
 };
