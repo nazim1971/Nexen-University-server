@@ -142,8 +142,6 @@ const studentSchema = new Schema<TStudent>({
   },
   admissionSemester:{
     type: Schema.Types.ObjectId,
-    required: [true, 'User id is required'],
-    unique: true,
     ref: 'AcademicSemester',
   },
   isDeleted: {
