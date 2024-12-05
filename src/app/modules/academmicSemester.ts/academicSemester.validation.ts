@@ -31,3 +31,7 @@ const createAcademicValidationSchema = z.object({
 export const AcademicSemesterValitions = {
   createAcademicValidationSchema,
 };
+
+export type TacademicSemesterCodeMapper = {
+  [key: string]: string;
+};
