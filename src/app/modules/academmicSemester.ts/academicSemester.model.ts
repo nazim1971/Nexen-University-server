@@ -43,6 +43,10 @@ academicSemesterSchema.pre('save', async function (next) {
     name: this.name,
     year: this.year,
   });
+  if(isSemesterExists){
+    throw new Error('Semester is already exist')
+  }
+  next()
 });
 
 export const academicSemester = model<TAcademicSemester>(

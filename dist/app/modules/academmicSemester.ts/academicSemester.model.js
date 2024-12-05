@@ -46,6 +46,10 @@ academicSemesterSchema.pre('save', function (next) {
             name: this.name,
             year: this.year,
         });
+        if (isSemesterExists) {
+            throw new Error('Semester is already exist');
+        }
+        next();
     });
 });
 exports.academicSemester = (0, mongoose_1.model)('AcademicSemester', academicSemesterSchema);
