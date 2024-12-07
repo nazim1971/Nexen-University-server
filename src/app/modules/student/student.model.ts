@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Query, Schema } from 'mongoose';
 import {
   StudentModel,
   TGuardian,
@@ -6,6 +6,7 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
+import { AppError } from '../../errors/AppError';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -165,21 +166,44 @@ const studentSchema = new Schema<TStudent>({
     const middleName = this.name.middleName ? ` ${this.name.middleName}` : ''; // Add space only if middleName exists
     return `${this.name.firstName}${middleName} ${this.name.lastName}`;
   });
+
+
+  //Hooks 
+  studentSchema.pre('findOneAndUpdate', async function(next){
+    const  query = this.getQuery()
+    const isStudentExist = await Student.findOne(query);
+    if(isStudentExist?.isDeleted === true || !isStudentExist){
+      throw new AppError( 404,'This Student is not exist!!');
+    }
+      next();
+})
+
+  // studentSchema.pre('findOne', async function(next){
+  //   const  query = this.getQuery()
+  //   const isStudentExist = await Student.findOne(query);
+  //   if(isStudentExist?.isDeleted === true || !isStudentExist){
+  //     throw new AppError( 404,'This Student is not exist!!');
+  //   }
+  //     next();
+  // } )
   
 
 //Query middlewire
 
-// function excludeDeleted(this: Query<unknown, Document>,next: Function) {
-//     this.find({ isDeleted: { $ne: true } });
-//     next();
-//   }
+function excludeDeleted(this: Query<unknown, Document>,next: Function) {
+    this.find({ isDeleted: { $ne: true } });
+    if (!this) {
+      throw new AppError( 404,'This Student is not found!!');
+    }
+    next();
+  }
  
-//   studentSchema.pre('find', excludeDeleted);
-//   studentSchema.pre('findOne', excludeDeleted);
-//   studentSchema.pre('aggregate', function (next) {
-//     this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-//     next();
-//   });
+  studentSchema.pre('find', excludeDeleted);
+  studentSchema.pre('findOne', excludeDeleted);
+  studentSchema.pre('aggregate', function (next) {
+    this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+    next();
+  });
 
 //   //creating a custom static method
 //   studentSchema.statics.isUserExist = async function (id: string) {
