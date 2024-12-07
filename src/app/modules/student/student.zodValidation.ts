@@ -57,7 +57,7 @@ const updateUserNameValidationSchema = z.object({
     .optional(),
   middleName: z.string().optional(),
   lastName: z.string().optional(),
-});
+}).strict();
 
 const updateGuardianValidationSchema = z.object({
   fatherName: z.string().optional(),
@@ -66,13 +66,13 @@ const updateGuardianValidationSchema = z.object({
   motherName: z.string().optional(),
   motherOccupation: z.string().optional(),
   motherContactNo: z.string().optional(),
-});
+}).strict();
 
 const updateLocalGuardianValidationSchema = z.object({
   Name: z.string().optional(),
   Occupation: z.string().optional(),
   ContactNo: z.string().optional(),
-});
+}).strict();
 
 const updateStudentValidationSchema = z.object({
   student: z.object({
@@ -92,8 +92,8 @@ const updateStudentValidationSchema = z.object({
     admissionSemester: z.string().optional(),
     academicDepartment: z.string().optional(),
     profileImg: z.string().optional(),
-  }).optional(),
-});
+  }).strict(),
+}).strict();
 
 
 export const studentValidations = {
