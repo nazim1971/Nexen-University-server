@@ -28,9 +28,17 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const student_model_1 = require("./student.model");
 const AppError_1 = require("../../errors/AppError");
 const user_model_1 = require("../user/user.model");
-const getAllStudentsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllStudentsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    let searchTerm = '';
+    if (query === null || query === void 0 ? void 0 : query.searchTerm) {
+        searchTerm = query === null || query === void 0 ? void 0 : query.searchTerm;
+    }
     //populate date to get all data of reference id
-    const result = yield student_model_1.Student.find()
+    const result = yield student_model_1.Student.find({
+        $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
+            [field]: { $regex: searchTerm, $options: 'i' },
+        })),
+    })
         .populate('user')
         .populate('admissionSemester')
         .populate({
@@ -73,7 +81,7 @@ const updateStudentIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, f
     }
     const result = yield student_model_1.Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
         new: true,
-        runValidators: true
+        runValidators: true,
     });
     return result;
 });
@@ -97,7 +105,7 @@ const deleteStudentFromDB = (id) => __awaiter(void 0, void 0, void 0, function* 
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
-        throw new AppError_1.AppError(400, "Failed to create new student");
+        throw new AppError_1.AppError(400, 'Failed to create new student');
     }
 });
 exports.StudentServices = {

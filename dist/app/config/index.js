@@ -21,13 +21,16 @@ class Config {
         this.uri = process.env.DATABASE_URI;
         // Ensure required variables are present
         if (!this.uri) {
-            throw new Error('DATABASE_URI is required in .env file');
+            throw new Error('DATABASE URI is required in .env file');
         }
         if (!process.env.PORT) {
             throw new Error('PORT is required in .env file');
         }
         if (!process.env.BCRYPT_SALT_ROUNDS) {
-            throw new Error('BCRYPT_SALT_ROUNDS is required in .env file');
+            throw new Error('BCRYPT SALT ROUNDS is required in .env file');
+        }
+        if (!process.env.NODE_ENV) {
+            throw new Error('NODE ENV is required in .env file');
         }
     }
     // MongoDB connection method
@@ -51,6 +54,9 @@ class Config {
     }
     get password() {
         return String(process.env.DEFAULT_PASS);
+    }
+    get nodeEnv() {
+        return String(process.env.NODE_ENV);
     }
 }
 exports.default = new Config();

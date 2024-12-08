@@ -19,7 +19,7 @@ const catchAsync_1 = require("../../utils/catchAsync");
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = require("../../errors/AppError");
 const getAllStudent = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_service_1.StudentServices.getAllStudentsFromDB();
+    const result = yield student_service_1.StudentServices.getAllStudentsFromDB(req.query);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -44,7 +44,7 @@ const updateStudent = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 
     const { studentId } = req.params;
     const { student } = req.body;
     const result = yield student_service_1.StudentServices.updateStudentIntoDB(studentId, student);
-    (0, sendResponse_1.sendResponse)(res, {
+    return (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
         message: 'Student is Updated successfully',
