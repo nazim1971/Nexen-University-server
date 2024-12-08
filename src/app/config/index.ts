@@ -12,14 +12,17 @@ class Config {
 
     // Ensure required variables are present
     if (!this.uri) {
-      throw new Error('DATABASE_URI is required in .env file');
+      throw new Error('DATABASE URI is required in .env file');
     }
 
     if (!process.env.PORT) {
       throw new Error('PORT is required in .env file');
     }
     if (!process.env.BCRYPT_SALT_ROUNDS) {
-      throw new Error('BCRYPT_SALT_ROUNDS is required in .env file');
+      throw new Error('BCRYPT SALT ROUNDS is required in .env file');
+    }
+    if (!process.env.NODE_ENV) {
+      throw new Error('NODE ENV is required in .env file');
     }
   }
 
@@ -45,6 +48,9 @@ class Config {
   }
   public get password(): string {
     return String(process.env.DEFAULT_PASS as string)
+  }
+  public get nodeEnv(): string {
+    return String(process.env.NODE_ENV as string)
   }
 }
 
