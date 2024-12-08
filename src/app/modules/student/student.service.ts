@@ -4,9 +4,18 @@ import { AppError } from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
 
-const getAllStudentsFromDB = async () => {
+const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
+  let searchTerm = '';
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+
   //populate date to get all data of reference id
-  const result = await Student.find()
+  const result = await Student.find({
+    $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  })
     .populate('user')
     .populate('admissionSemester')
     .populate({
@@ -32,33 +41,33 @@ const getSingleStudentFromDB = async (id: string) => {
 };
 
 const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
-  const {name,guardian,localGuardian, ...restOfData } = payload;
+  const { name, guardian, localGuardian, ...restOfData } = payload;
 
-  const modifiedUpdatedData : Record<string,unknown> = {
-    ...restOfData
-  }
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...restOfData,
+  };
 
-  if(name && Object.keys(name).length){
-    for(const [key, value] of Object.entries(name) ){
-      modifiedUpdatedData[`name.${key}`] = value
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedUpdatedData[`name.${key}`] = value;
     }
   }
 
-  if(guardian && Object.keys(guardian).length){
-    for(const [key, value] of Object.entries(guardian) ){
-      modifiedUpdatedData[`guardian.${key}`] = value
+  if (guardian && Object.keys(guardian).length) {
+    for (const [key, value] of Object.entries(guardian)) {
+      modifiedUpdatedData[`guardian.${key}`] = value;
     }
   }
 
-  if(localGuardian && Object.keys(localGuardian).length){
-    for(const [key, value] of Object.entries(localGuardian) ){
-      modifiedUpdatedData[`localGuardian.${key}`] = value
+  if (localGuardian && Object.keys(localGuardian).length) {
+    for (const [key, value] of Object.entries(localGuardian)) {
+      modifiedUpdatedData[`localGuardian.${key}`] = value;
     }
   }
 
   const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
 
   return result;
@@ -96,7 +105,7 @@ const deleteStudentFromDB = async (id: string) => {
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError( 400 ,"Failed to create new student");
+    throw new AppError(400, 'Failed to create new student');
   }
 };
 
