@@ -12,52 +12,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AcademicFacultyController = void 0;
+exports.AcademicDepartmentController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const sendResponse_1 = require("../../utils/sendResponse");
 const catchAsync_1 = require("../../utils/catchAsync");
-const academicFaculty_service_1 = require("./academicFaculty.service");
-const createAcademicFaculty = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academicFaculty_service_1.AcademicFacultyService.createAcademicFacultyIntoDB(req.body);
+const academicDepartment_service_1 = require("./academicDepartment.service");
+const createAcademicDepartment = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicDepartment_service_1.AcademicDepartmentService.createAcademicDepartmentIntoDB(req.body);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,
-        message: 'Academic Faculty is created successfully',
+        message: 'Academic Department is created successfully',
         data: result,
     });
 }));
-const singleAcademicFaculty = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { facultyId } = req.params;
-    const result = yield academicFaculty_service_1.AcademicFacultyService.getSingleAcademicFaculty(facultyId);
+const singleAcademicDepartment = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { DepartmentId } = req.params;
+    const result = yield academicDepartment_service_1.AcademicDepartmentService.getSingleAcademicDepartment(DepartmentId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: 'Academic Faculty is revert successfully',
+        message: 'Academic Department is revert successfully',
         data: result,
     });
 }));
-const allAcademicFaculty = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield academicFaculty_service_1.AcademicFacultyService.getAllAcademicFacultyFromDB();
+const allAcademicDepartment = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicDepartment_service_1.AcademicDepartmentService.getAllAcademicDepartmentFromDB();
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: 'Academic Faculty is revert successfully',
+        message: 'Academic Department is revert successfully',
         data: result,
     });
 }));
-const updateAcademicFaculty = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { facultyId } = req.params;
-    const result = yield academicFaculty_service_1.AcademicFacultyService.updateAcademicFaculty(facultyId, req.body);
+const updateAcademicDepartment = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { DepartmentId } = req.params;
+    const result = yield academicDepartment_service_1.AcademicDepartmentService.updateAcademicDepartment(DepartmentId, req.body);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: 'Academic Faculty is Updated successfully',
+        message: 'Academic Department is Updated successfully',
         data: result,
     });
 }));
-exports.AcademicFacultyController = {
-    createAcademicFaculty,
-    singleAcademicFaculty,
-    allAcademicFaculty,
-    updateAcademicFaculty
+exports.AcademicDepartmentController = {
+    createAcademicDepartment,
+    singleAcademicDepartment,
+    allAcademicDepartment,
+    updateAcademicDepartment
 };

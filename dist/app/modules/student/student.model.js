@@ -1,7 +1,17 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Student = void 0;
 const mongoose_1 = require("mongoose");
+const AppError_1 = require("../../errors/AppError");
 const userNameSchema = new mongoose_1.Schema({
     firstName: {
         type: String,
@@ -135,6 +145,10 @@ const studentSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'AcademicSemester',
     },
+    academicDepartment: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AcademicDepartment',
+    },
     isDeleted: {
         type: Boolean,
         default: false,
@@ -146,19 +160,42 @@ const studentSchema = new mongoose_1.Schema({
 });
 // virtual
 studentSchema.virtual('fullName').get(function () {
-    return this.name.firstName + this.name.middleName + this.name.lastName;
+    const middleName = this.name.middleName ? ` ${this.name.middleName}` : ''; // Add space only if middleName exists
+    return `${this.name.firstName}${middleName} ${this.name.lastName}`;
 });
-//Query middlewire
-// function excludeDeleted(this: Query<unknown, Document>,next: Function) {
-//     this.find({ isDeleted: { $ne: true } });
-//     next();
+//Hooks 
+studentSchema.pre('findOneAndUpdate', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = this.getQuery();
+        const isStudentExist = yield exports.Student.findOne(query);
+        if ((isStudentExist === null || isStudentExist === void 0 ? void 0 : isStudentExist.isDeleted) === true || !isStudentExist) {
+            throw new AppError_1.AppError(404, 'This Student is not exist!!');
+        }
+        next();
+    });
+});
+// studentSchema.pre('findOne', async function(next){
+//   const  query = this.getQuery()
+//   const isStudentExist = await Student.findOne(query);
+//   if(isStudentExist?.isDeleted === true || !isStudentExist){
+//     throw new AppError( 404,'This Student is not exist!!');
 //   }
-//   studentSchema.pre('find', excludeDeleted);
-//   studentSchema.pre('findOne', excludeDeleted);
-//   studentSchema.pre('aggregate', function (next) {
-//     this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
 //     next();
-//   });
+// } )
+//Query middlewire
+function excludeDeleted(next) {
+    this.find({ isDeleted: { $ne: true } });
+    if (!this) {
+        throw new AppError_1.AppError(404, 'This Student is not found!!');
+    }
+    next();
+}
+studentSchema.pre('find', excludeDeleted);
+studentSchema.pre('findOne', excludeDeleted);
+studentSchema.pre('aggregate', function (next) {
+    this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+    next();
+});
 //   //creating a custom static method
 //   studentSchema.statics.isUserExist = async function (id: string) {
 //     const existingUser = await Student.findOne({ id });

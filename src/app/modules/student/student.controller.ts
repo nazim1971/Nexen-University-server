@@ -37,7 +37,7 @@ const updateStudent: RequestHandler = catchAsync(async (req, res) => {
   const {student} = req.body;
   const result = await StudentServices.updateStudentIntoDB(studentId, student);
 
-  sendResponse(res, {
+ return sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Student is Updated successfully',
