@@ -163,8 +163,8 @@ const studentSchema = new Schema<TStudent>({
 
 // virtual
   studentSchema.virtual('fullName').get(function () {
-    const middleName = this.name.middleName ? ` ${this.name.middleName}` : ''; // Add space only if middleName exists
-    return `${this.name.firstName}${middleName} ${this.name.lastName}`;
+    const middleName = this.name?.middleName ? ` ${this.name?.middleName}` : ''; // Add space only if middleName exists
+    return `${this.name?.firstName}${middleName} ${this.name?.lastName}`;
   });
 
 

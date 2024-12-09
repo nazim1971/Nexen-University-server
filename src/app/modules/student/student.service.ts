@@ -3,34 +3,16 @@ import { Student } from './student.model';
 import { AppError } from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { studentSearchableFields } from './student.const';
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
-  const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
-  let searchTerm = '';
-  if (query?.searchTerm) {
-    searchTerm = query?.searchTerm as string;
-  }
+ 
 
-  //filtering
-
-  //pagination
-  // let page =1;
-  // let limit = 1;
-  // if (query.page) {
-  //   page = Number(query.page);
-  // }
-
-  // const paginateQuery = sortQuery.skip()
-  // if (query.limit) {
-  //   limit = Number(query.limit);
-  // }
+  const  studentQuery = new QueryBuilder(Student.find(),query).search(studentSearchableFields).filter().sort().paginate().fields();
 
   //populate date to get all data of reference id
-  const result = await Student.find({
-    $or: studentSearchableFields.map((field) => ({
-      [field]: { $regex: searchTerm, $options: 'i' },
-    })),
-  })
+  const result = await studentQuery.modelQuery
     .populate('user')
     .populate('admissionSemester')
     .populate({
