@@ -5,14 +5,29 @@ import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
+  const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
   let searchTerm = '';
   if (query?.searchTerm) {
     searchTerm = query?.searchTerm as string;
   }
 
+  //filtering
+
+  //pagination
+  // let page =1;
+  // let limit = 1;
+  // if (query.page) {
+  //   page = Number(query.page);
+  // }
+
+  // const paginateQuery = sortQuery.skip()
+  // if (query.limit) {
+  //   limit = Number(query.limit);
+  // }
+
   //populate date to get all data of reference id
   const result = await Student.find({
-    $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
+    $or: studentSearchableFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: 'i' },
     })),
   })
