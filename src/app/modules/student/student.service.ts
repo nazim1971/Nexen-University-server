@@ -7,9 +7,12 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import { studentSearchableFields } from './student.const';
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
- 
-
-  const  studentQuery = new QueryBuilder(Student.find(),query).search(studentSearchableFields).filter().sort().paginate().fields();
+  const studentQuery = new QueryBuilder(Student.find(), query)
+    .search(studentSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
   //populate date to get all data of reference id
   const result = await studentQuery.modelQuery

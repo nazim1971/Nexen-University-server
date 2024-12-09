@@ -2,6 +2,7 @@ import { Types } from 'mongoose';
 import { TUserName } from '../student/student.interface';
 export type TFaculty = {
   id: string;
+  user: Types.ObjectId;
   designation: string;
   name: TUserName;
   gender: 'male' | 'female';
