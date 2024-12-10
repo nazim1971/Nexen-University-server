@@ -52,7 +52,7 @@ const updateAdminNameValidationSchema = z.object({
         presentAddress: z.string().optional(), 
         permanentAddress: z.string().optional(), 
         profileImg: z.string().optional(),
-    }).optional(),
+    }).strict(),
   });
 export const AdminValidation = {
   createAdminValidationSchema,

@@ -20,6 +20,6 @@ const findLastAdmin = async () => {
      currentId = lastAdminId ? lastAdminId.substring(2) : '0000'; 
     
     let incrementId = (parseInt(currentId) + 1).toString().padStart(4, '0');
-    incrementId = `F-${incrementId}`;
+    incrementId = `A-${incrementId}`;
     return incrementId ;
   };
