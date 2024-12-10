@@ -41,7 +41,8 @@ const allFaculty = catchAsync(async(req,res)=>{
       data: result,
     });
   });
-  
+
+
   const deleteFaculty = catchAsync(async (req, res) => {
     const { facultyId } = req.params;
     const result = await FacultyServices.deleteFacultyFromDB(facultyId);

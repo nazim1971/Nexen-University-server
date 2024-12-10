@@ -55,7 +55,7 @@ const updateFacultyNameValidationSchema = z.object({
         academicFaculty: z.string().optional(), 
         academicDepartment: z.string().optional(),
         profileImg: z.string().optional(),
-    }),
+    }).optional(),
   });
 export const FacultyValidation = {
   createFacultyValidationSchema,
