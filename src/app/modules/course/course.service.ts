@@ -1,7 +1,8 @@
+import { TCourse } from './course.interface';
 import { Course } from './course.model';
 
-const createCourse = async () => {
-  const result = await Course.create();
+const createCourseIntoDB = async (payload: TCourse) => {
+  const result = await Course.create(payload);
   return result;
 };
 
@@ -29,7 +30,7 @@ const deleteCourseFromDB = async (id: string) => {
 };
 
 export const CourseServices = {
-  createCourse,
+  createCourseIntoDB,
   getAllCourseFromDB,
   getSingleCourseFromDB,
   deleteCourseFromDB,
