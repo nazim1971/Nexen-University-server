@@ -11,7 +11,7 @@ const getAllAdminFromDB = async () => {
 };
 
 const getSingleAdmin = async (id: string) => {
-  const result = await Admin.findOne({id});
+  const result = await Admin.findById(id);
   return result;
 };
 
@@ -28,7 +28,7 @@ const updateAdmin = async (id: string, payload: Partial<TAdmins>) => {
     }
   }
 
-  const result = await Admin.findOneAndUpdate(
+  const result = await Admin.findByIdAndUpdate(
     {
      id,
     },
@@ -47,8 +47,8 @@ const deleteAdminFromDB = async (id: string) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const deletedAdmin = await Admin.findOneAndUpdate(
-      { id },
+    const deletedAdmin = await Admin.findByIdAndUpdate(
+       id ,
       { isDeleted: true },
       { new: true, session },
     );
@@ -57,8 +57,8 @@ const deleteAdminFromDB = async (id: string) => {
       throw new AppError(400, 'Failed to delete Admin');
     }
 
-    const deletedUser = await User.findOneAndUpdate(
-      { id },
+    const deletedUser = await User.findByIdAndUpdate(
+       id ,
       { isDeleted: true },
       { new: true, session },
     );
