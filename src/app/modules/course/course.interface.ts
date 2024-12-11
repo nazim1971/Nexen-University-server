@@ -1,4 +1,4 @@
-import { Faculty } from './../faculty/faculty.model';
+
 import { Types } from "mongoose";
 
 export type TPreRequisiteCourses = {
