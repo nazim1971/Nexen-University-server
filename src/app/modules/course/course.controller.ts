@@ -1,6 +1,7 @@
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { CourseServices } from "./course.service";
+import httpStatus from "http-status";
 
 
 
@@ -44,14 +45,27 @@ const deleteCourse = catchAsync(async(req,res)=>{
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Academic Faculty is Updated successfully',
+    message: 'Academic Faculty is Deleted successfully',
     data: result,
   });
 })
+
+const updateCourse = catchAsync(async(req,res)=>{
+    const {courseId} = req.params;
+  
+    const result =  await CourseServices.updateCourseFromDB(courseId,req.body);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Course is Updated successfully',
+      data: result,
+    });
+  })
 
 export const CourseController = {
   createCourse,
   singleCourse,
   allCourse,
-  deleteCourse
+  deleteCourse,
+  updateCourse
 };
