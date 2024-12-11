@@ -28,11 +28,11 @@ const PreRequisiteCourseValidationSchema = z.object({
     isDeleted: z.boolean().optional(),
   })
  
-   const assignFacultiesWithCourseSchema = z.object({
+   const FacultiesWithCourseSchema = z.object({
     faculties: z.array(z.string())
    })
   export const CourseValidations = {
     createCourseValidationSchema,
     updateCourseValidationSchema,
-    assignFacultiesWithCourseSchema
+    FacultiesWithCourseSchema
   };

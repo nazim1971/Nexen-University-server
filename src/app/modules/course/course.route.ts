@@ -15,6 +15,8 @@ router.delete('/:courseId', CourseController.deleteCourse)
 
 router.patch('/:courseId', validateMiddlewire(CourseValidations.updateCourseValidationSchema) , CourseController.updateCourse)
 
-router.put('/:courseId/assign-faculties',validateMiddlewire(CourseValidations.assignFacultiesWithCourseSchema), CourseController.assignFacultieswithCourse)
+router.put('/:courseId/assign-faculties',validateMiddlewire(CourseValidations.FacultiesWithCourseSchema), CourseController.assignFacultieswithCourse);
+
+router.delete('/:courseId/remove-faculties',validateMiddlewire(CourseValidations.FacultiesWithCourseSchema), CourseController.assignFacultieswithCourse);
 
 export const CourseRoutes = router;
