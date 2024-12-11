@@ -1,3 +1,4 @@
+import { Faculty } from './../faculty/faculty.model';
 import { Types } from "mongoose";
 
 export type TPreRequisiteCourses = {
@@ -14,3 +15,8 @@ export type TCourse = {
     preRequisiteCourses: [TPreRequisiteCourses]
 
 }
+
+export type TCourseFaculty = {
+    course: Types.ObjectId;
+    faculties: [Types.ObjectId]
+} 
