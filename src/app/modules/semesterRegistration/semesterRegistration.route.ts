@@ -7,7 +7,7 @@ router.post('/create-semester-registration', SemesterRegistrationController.crea
 
 router.get('/:id', )
 
-router.get('/', )
+router.get('/',SemesterRegistrationController.getAllSemesterRegistration )
 
 router.patch('/:id',)
 
