@@ -17,6 +17,6 @@ router.get(
 
 router.get('/', SemesterRegistrationController.getAllSemesterRegistration);
 
-router.patch('/:id' , validateMiddlewire(SemesterRegistrationValidations.upadateSemRegValSchema) );
+router.patch('/:id' , validateMiddlewire(SemesterRegistrationValidations.upadateSemRegValSchema), SemesterRegistrationController.updateSemesterRegistration );
 
 export const SemesterRegistrationRoutes = router;
