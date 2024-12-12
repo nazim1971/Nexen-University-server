@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/create-semester-registration', SemesterRegistrationController.createSemesterRegistration );
 
-router.get('/:id', )
+router.get('/:id',SemesterRegistrationController.getSingleSemesterRegistration )
 
 router.get('/',SemesterRegistrationController.getAllSemesterRegistration )
 
