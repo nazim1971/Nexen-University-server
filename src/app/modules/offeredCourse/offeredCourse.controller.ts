@@ -16,13 +16,13 @@ const createOfferedCourse = catchAsync(async (req, res) => {
   });
   
   const getAllOfferedCourses = catchAsync(async (req, res) => {
-    //   const result =
-    //   sendResponse(res, {
-    //     statusCode: httpStatus.OK,
-    //     success: true,
-    //     message: 'OfferedCourses retrieved successfully !',
-    //     data: result,
-    //   });
+      const result = await OfferedCourseServices.getAllOfferedCoursesFromDB()
+      sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'OfferedCourses retrieved successfully !',
+        data: result,
+      });
   });
   
   const getSingleOfferedCourses = catchAsync(
