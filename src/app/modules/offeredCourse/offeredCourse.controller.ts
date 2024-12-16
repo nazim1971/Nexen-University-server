@@ -27,7 +27,14 @@ const createOfferedCourse = catchAsync(async (req, res) => {
   
   const getSingleOfferedCourses = catchAsync(
      async (req, res) => {
-    
+      const { id } = req.params;
+        const result = await OfferedCourseServices.getSingleOfferedCourseFromDB(id)
+        sendResponse(res, {
+          statusCode: httpStatus.OK,
+          success: true,
+          message: 'OfferedCourse fetched successfully',
+          data: result,
+        });
     },
   );
   

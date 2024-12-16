@@ -141,7 +141,10 @@ const getAllOfferedCoursesFromDB = async () => {
   return result;
 };
 
-const getSingleOfferedCourseFromDB = async (id: string) => {};
+const getSingleOfferedCourseFromDB = async (id: string) => {
+  const result = await OfferedCourse.findById(id);
+  return result;
+};
 
 const deleteOfferedCourseFromDB = async (id: string) => {};
 
