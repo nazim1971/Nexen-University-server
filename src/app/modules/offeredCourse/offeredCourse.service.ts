@@ -147,7 +147,7 @@ const deleteOfferedCourseFromDB = async (id: string) => {};
 
 const updateOfferedCourseIntoDB = async (
   id: string,
-  payload: Partial<TOfferedCourse>,
+  payload: Pick<TOfferedCourse, 'faculty' | 'days' |'startTime' | 'endTime'>,
 ) => {
   const { faculty, days, startTime, endTime } = payload;
 
