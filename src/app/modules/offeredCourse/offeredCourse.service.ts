@@ -6,6 +6,8 @@ import { Faculty } from '../faculty/faculty.model';
 import { SemesterRegistration } from '../semesterRegistration/semesterRegistration.model';
 import { TOfferedCourse } from './offeredCourse.interface';
 import { OfferedCourse } from './offeredCourse.model';
+import { hasTimeConflict } from './offeredCourse.utils';
+import httpStatus from 'http-status';
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
     const {

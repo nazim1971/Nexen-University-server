@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { AnyZodObject } from "zod";
+import { AnyZodObject, ZodType } from "zod";
 
 
-export const validateMiddlewire = (schema: AnyZodObject) => {
+export const validateMiddlewire = ( schema: ZodType | AnyZodObject) => {
     return async (req: Request, res: Response, next: NextFunction) => {
   
       try {
