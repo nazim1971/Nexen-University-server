@@ -1,4 +1,7 @@
-export type Tuser = {
+
+import { Model } from "mongoose";
+
+export interface Tuser {
   id: string;
   password: string;
   needPasswordChange: boolean;
@@ -8,3 +11,6 @@ export type Tuser = {
 };
 
 
+export interface UserModel extends Model<Tuser>{
+  isUserExistByCustomId(id:string): Promise<Tuser>
+}
