@@ -32,7 +32,7 @@ const createOfferedCourse = catchAsync(async (req, res) => {
         sendResponse(res, {
           statusCode: httpStatus.OK,
           success: true,
-          message: 'OfferedCourse fetched successfully',
+          message: 'Login successfully',
           data: result,
         });
     },
