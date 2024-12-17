@@ -1,9 +1,9 @@
 import { model, Schema } from 'mongoose';
-import { Tuser } from './user.interface';
+import { Tuser, UserModel } from './user.interface';
 import config from '../../config';
 import bcrypt from 'bcrypt';
 
-const userSchema = new Schema<Tuser>(
+const userSchema = new Schema<Tuser, UserModel>(
   {
     id: {
       type: String,
@@ -55,4 +55,10 @@ userSchema.statics.isUserExistByCustomId = async function (id: string) {
   });
 };
 
-export const User = model<Tuser>('User', userSchema);
+userSchema.statics.isUserDeleted = async function (id: string) {
+  return await User.findOne({
+    id,
+  });
+};
+
+export const User = model<Tuser, UserModel>('User', userSchema);
