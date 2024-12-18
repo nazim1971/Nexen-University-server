@@ -24,6 +24,9 @@ class Config {
     if (!process.env.NODE_ENV) {
       throw new Error('NODE ENV is required in .env file');
     }
+    if (!process.env.JWT_ACCESS_SECRET) {
+      throw new Error('JWT_ACCESS_SECRET is required in .env file');
+    }
   }
 
   // MongoDB connection method
@@ -51,6 +54,9 @@ class Config {
   }
   public get nodeEnv(): string {
     return String(process.env.NODE_ENV as string)
+  }
+  public get jwt(): string {
+    return String(process.env.JWT_ACCESS_SECRET as string)
   }
 }
 
