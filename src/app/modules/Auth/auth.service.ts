@@ -1,3 +1,4 @@
+import config from '../../config';
 import { AppError } from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
@@ -37,8 +38,11 @@ const loginUser = async (payload: TLoginUser) => {
     userId: user.id,
     role: user.role
   }
-  const asscssToken = jwt.sign(jwtPayload, 'secret', {expiresIn: 60* 60}  );
-  // console.log(isPassMatch);
+  const accessToken = jwt.sign(jwtPayload, config.jwt, {expiresIn: '10d'}  );
+  return {
+    accessToken,
+    needsPasswordChange: user?.needPasswordChange
+  }
 };
 
 export const AuthService = {

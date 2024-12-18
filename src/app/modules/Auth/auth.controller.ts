@@ -8,7 +8,7 @@ const loginUser = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'OfferedCourse fetched successfully',
+    message: 'User is login successfully',
     data: result,
   });
 });
