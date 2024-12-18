@@ -55,12 +55,12 @@ userSchema.statics.isUserExistByCustomId = async function (id: string) {
   });
 };
 
+// Static method to check if passwords match
 userSchema.statics.isPasswordMatched = async function (
-  plainTextPassword,
-  hashedPassword,
+  plainTextPassword: string,
+  hashedPassword: string,
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
-
 
 export const User = model<Tuser, UserModel>('User', userSchema);

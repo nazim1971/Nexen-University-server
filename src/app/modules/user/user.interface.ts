@@ -13,4 +13,16 @@ export interface Tuser {
 
 export interface UserModel extends Model<Tuser>{
   isUserExistByCustomId(id:string): Promise<Tuser>
+
+   //instance methods for checking if passwords are matched
+   isPasswordMatched(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
+
+  isJWTIssuedBeforePasswordChanged(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number,
+  ): boolean;
 }
+

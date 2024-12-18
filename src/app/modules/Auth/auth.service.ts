@@ -2,12 +2,13 @@ import { AppError } from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';
-import bcrypt from 'bcrypt'
+// import bcrypt from 'bcrypt'
 
 const loginUser = async (payload: TLoginUser) => {
+  
+  const user = await User.isUserExistByCustomId(payload?.id)
 
-
-  if (!await User.isUserExistByCustomId(payload.id)) {
+  if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!!!');
   }
 
@@ -26,6 +27,13 @@ const loginUser = async (payload: TLoginUser) => {
   // //check if the pass is correct
 
   // const isPassMatch = await bcrypt.compare(payload.password, isUserExist?.password)
+
+  // Check if the password matches
+  const isPasswordMatch = await User.isPasswordMatched(payload?.password, user?.password);
+
+  if (!isPasswordMatch) {
+    throw new AppError(httpStatus.FORBIDDEN, 'Incorrect password');
+  }
 
   // console.log(isPassMatch);
 };
