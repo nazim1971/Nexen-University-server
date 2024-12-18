@@ -55,10 +55,12 @@ userSchema.statics.isUserExistByCustomId = async function (id: string) {
   });
 };
 
-userSchema.statics.isUserDeleted = async function (id: string) {
-  return await User.findOne({
-    id,
-  });
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
+
 
 export const User = model<Tuser, UserModel>('User', userSchema);

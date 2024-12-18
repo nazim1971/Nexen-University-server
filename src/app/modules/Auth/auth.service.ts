@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 import bcrypt from 'bcrypt'
 
 const loginUser = async (payload: TLoginUser) => {
-  // const isUserExist = 
+
 
   if (!await User.isUserExistByCustomId(payload.id)) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!!!');
