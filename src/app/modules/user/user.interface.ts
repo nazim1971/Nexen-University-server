@@ -1,5 +1,6 @@
 
 import { Model } from "mongoose";
+import { USER_ROLE } from "./user.const";
 
 export interface Tuser {
   id: string;
@@ -26,3 +27,4 @@ export interface UserModel extends Model<Tuser>{
   ): boolean;
 }
 
+export type TUserRole = keyof typeof USER_ROLE

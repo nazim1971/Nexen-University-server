@@ -1,15 +1,10 @@
-import { NextFunction, Request, Response } from "express";
 import { AnyZodObject, ZodType } from "zod";
+import { catchAsync } from "./catchAsync";
 
 
 export const validateMiddlewire = ( schema: ZodType | AnyZodObject) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-  
-      try {
+    return catchAsync(async (req, res, next) => {
         await schema.parseAsync(req.body);
          next();
-      } catch (error) {
-        next(error);
-      }
-    };
+    })
   };
