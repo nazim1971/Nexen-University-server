@@ -1,5 +1,6 @@
 import config from '../../config';
 import { AppError } from '../../errors/AppError';
+import { catchAsync } from '../../utils/catchAsync';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';
@@ -45,6 +46,14 @@ const loginUser = async (payload: TLoginUser) => {
   }
 };
 
+const changePasswordIntoDB = async(user:{userId: string, role: string}, payload )=> {
+  const result = await User.findOneAndUpdate({
+    id: user.userId,
+    role: user.role
+  })
+}
+
 export const AuthService = {
   loginUser,
+  changePasswordIntoDB
 };

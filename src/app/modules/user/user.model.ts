@@ -12,6 +12,7 @@ const userSchema = new Schema<Tuser, UserModel>(
     password: {
       type: String,
       required: true,
+      select: 0
     },
     needPasswordChange: {
       type: Boolean,
@@ -52,7 +53,7 @@ userSchema.post('save', function (doc, next) {
 userSchema.statics.isUserExistByCustomId = async function (id: string) {
   return await User.findOne({
     id,
-  });
+  }).select('+password');
 };
 
 // Static method to check if passwords match
