@@ -3,8 +3,8 @@ import { AppError } from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';
-import jwt, { JwtPayload }  from 'jsonwebtoken';
-import bcrypt from 'bcrypt'
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.isUserExistByCustomId(payload?.id);
@@ -37,17 +37,19 @@ const loginUser = async (payload: TLoginUser) => {
   //create token and send to the client
   const jwtPayload = {
     userId: user.id,
-    role: user.role
-  }
-  const accessToken = jwt.sign(jwtPayload, config.jwt, {expiresIn: '10d'}  );
+    role: user.role,
+  };
+  const accessToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10d' });
   return {
     accessToken,
-    needsPasswordChange: user?.needPasswordChange
-  }
+    needsPasswordChange: user?.needPasswordChange,
+  };
 };
 
-const changePasswordIntoDB = async(userData: JwtPayload, payload:{oldPassword: string, newPassword: string} )=> {
-
+const changePasswordIntoDB = async (
+  userData: JwtPayload,
+  payload: { oldPassword: string; newPassword: string },
+) => {
   const user = await User.isUserExistByCustomId(userData?.userId);
 
   if (!user) {
@@ -76,18 +78,26 @@ const changePasswordIntoDB = async(userData: JwtPayload, payload:{oldPassword: s
   }
 
   //hash new pass
-  const newHashedPassword = await bcrypt.hash(payload.newPassword, Number(config.slat))
+  const newHashedPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.slat),
+  );
 
-  const result = await User.findOneAndUpdate({
-    id: userData.userId,
-    role: userData.role
-  },{
-    password: newHashedPassword
-  })
+  const result = await User.findOneAndUpdate(
+    {
+      id: userData.userId,
+      role: userData.role,
+    },
+    {
+      password: newHashedPassword,
+      needPasswordChange: false,
+      passwordChangeAt: new Date(),
+    },
+  );
   return null;
-}
+};
 
 export const AuthService = {
   loginUser,
-  changePasswordIntoDB
+  changePasswordIntoDB,
 };

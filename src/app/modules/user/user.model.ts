@@ -18,6 +18,10 @@ const userSchema = new Schema<Tuser, UserModel>(
       type: Boolean,
       default: true,
     },
+    passwordChangeAt:{
+      type: Date
+    }
+    ,
     role: {
       type: String,
       enum: ['student', 'faculty', 'admin'],
@@ -59,7 +63,7 @@ userSchema.statics.isUserExistByCustomId = async function (id: string) {
 // Static method to check if passwords match
 userSchema.statics.isPasswordMatched = async function (
   plainTextPassword: string,
-  hashedPassword: string,
+  hashedPassword: string
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
