@@ -17,13 +17,13 @@ router.post(
 );
 
 router.post(
-  '/create-faculty',
+  '/create-faculty',auth(USER_ROLE.admin),
   validateMiddlewire(FacultyValidation.createFacultyValidationSchema),
   UserController.createFaculty,
 );
 
 router.post(
-  '/create-admin',
+  '/create-admin', auth(USER_ROLE.admin),
   validateMiddlewire(AdminValidation.createAdminValidationSchema),
   UserController.createAdmin,
 );
