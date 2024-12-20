@@ -41,10 +41,11 @@ const loginUser = async (payload: TLoginUser) => {
   };
   const accessToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10d' });
 
-  const refressToken = jwt.sign(jwtPayload, config.jwtRef, { expiresIn: '365d' });
+  const refreshToken = jwt.sign(jwtPayload, config.jwtRef, { expiresIn: '365d' });
 
   return {
     accessToken,
+    refreshToken,
     needsPasswordChange: user?.needPasswordChange,
   };
 
