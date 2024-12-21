@@ -3,6 +3,7 @@ import cors from 'cors';
 import globalErrorHandler from './app/middlewires/globalErrorHandler';
 import notFound from './app/middlewires/notFound';
 import router from './app/routes';
+import cookieParser from 'cookie-parser';
 
 class Application {
   public App: express.Application;
@@ -15,6 +16,7 @@ class Application {
 
   private middleware() {
     this.App.use(express.json());
+    this.App.use(cookieParser())
     this.App.use(cors());
   }
 

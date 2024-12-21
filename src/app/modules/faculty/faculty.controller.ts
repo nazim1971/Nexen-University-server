@@ -7,6 +7,7 @@ import { AppError } from "../../errors/AppError";
 
 const allFaculty = catchAsync(async(req,res)=>{
     const result=  await FacultyServices.getAllFacultyFromDB();
+    console.log(req.cookies);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,

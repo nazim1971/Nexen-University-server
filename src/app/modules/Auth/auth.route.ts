@@ -11,4 +11,6 @@ router.post('/login',validateMiddlewire(AuthValidation.loginValidationSchema) ,A
 
 router.post('/change-password', auth(USER_ROLE.student, USER_ROLE.faculty, USER_ROLE.admin) , validateMiddlewire(AuthValidation.changePassValidationSchema) ,AuthController.changePassword)
 
+router.post('/refresh-token',)
+
 export const AuthenticationRoute = router;
