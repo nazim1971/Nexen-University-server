@@ -11,6 +11,10 @@ router.post('/login',validateMiddlewire(AuthValidation.loginValidationSchema) ,A
 
 router.post('/change-password', auth(USER_ROLE.student, USER_ROLE.faculty, USER_ROLE.admin) , validateMiddlewire(AuthValidation.changePassValidationSchema) ,AuthController.changePassword)
 
-router.post('/refresh-token',)
+router.post('/refresh-token',
+    validateMiddlewire(AuthValidation.refreshTokenValidationSchema),
+    AuthController.refreshToken,)
+
+router.post('/forget-password', )    
 
 export const AuthenticationRoute = router;

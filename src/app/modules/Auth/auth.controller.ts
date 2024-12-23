@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import config from '../../config';
 
 const loginUser = catchAsync(async (req, res) => {
+   
   const result = await AuthService.loginUser(req.body);
   const { accessToken, refreshToken, needsPasswordChange } = result;
 
@@ -48,6 +49,8 @@ const refreshToken = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
 
 export const AuthController = {
   loginUser,
