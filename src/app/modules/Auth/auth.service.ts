@@ -150,8 +150,17 @@ const refreshToken = async(token: string)=>{
   };
 }
 
+const forgetPassword = async (userId: string) => {}
+
+const resetPassword = async (
+  payload: { id: string; newPassword: string },
+  token: string,
+) => {}
+
 export const AuthService = {
   loginUser,
   changePasswordIntoDB,
-  refreshToken
+  refreshToken,
+  forgetPassword,
+  resetPassword
 };

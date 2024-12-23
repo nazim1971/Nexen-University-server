@@ -50,10 +50,15 @@ const refreshToken = catchAsync(async (req, res) => {
   });
 });
 
+const forgetPassword = catchAsync(async (req, res) => {})
+
+const resetPassword = catchAsync(async (req, res) => {})
 
 
 export const AuthController = {
   loginUser,
   changePassword,
-  refreshToken
+  refreshToken,
+  forgetPassword,
+  resetPassword
 };
