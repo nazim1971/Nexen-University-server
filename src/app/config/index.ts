@@ -30,6 +30,9 @@ class Config {
     if (!process.env.JWT_REFRESH_SECRET) {
       throw new Error('JWT_REFRESH_SECRET is required in .env file');
     }
+    if (!process.env.RESET_PASS_UI_LINK) {
+      throw new Error('RESET_PASS_UI_LINK is required in .env file');
+    }
   }
 
   // MongoDB connection method
@@ -63,6 +66,9 @@ class Config {
   }
   public get jwtRef(): string {
     return String(process.env.JWT_REFRESH_SECRET as string)
+  }
+  public get resetUrl(): string {
+    return String(process.env.RESET_PASS_UI_LINK as string)
   }
 }
 

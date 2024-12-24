@@ -177,10 +177,9 @@ const forgetPassword = async (userId: string) => {
     };
     const resetToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10m' });
   
-  const resetUILink = `http://localhost:5000?id=${user?.id}&token=${resetToken}`;
-  sendEmail()
+  const resetUILink = `${config.resetUrl}?id=${user?.id}&token=${resetToken}`;
+  sendEmail(user.email,resetUILink)
 
-  console.log({ResetToken: resetUILink});
 }
 
 // const resetPassword = async (
