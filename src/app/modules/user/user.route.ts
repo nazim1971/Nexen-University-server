@@ -6,6 +6,7 @@ import { FacultyValidation } from '../faculty/faculty.validation';
 import { AdminValidation } from '../admin/admin.validation';
 import { auth } from '../../middlewires/auth';
 import { USER_ROLE } from './user.const';
+import { userValidation } from './user.validation';
 
 const router = express.Router();
 
@@ -28,8 +29,14 @@ router.post(
   UserController.createAdmin,
 );
 
-//his his huss huss data
 router.post(
+  '/change-status/:id', auth(USER_ROLE.admin),
+  validateMiddlewire(userValidation.changeStatusValidationSchema),
+  UserController.changeStatus,
+);
+
+//his his huss huss data
+router.get(
   '/me', auth(USER_ROLE.admin,USER_ROLE.faculty,USER_ROLE.student),
   UserController.getMe,
 );

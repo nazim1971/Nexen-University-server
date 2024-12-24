@@ -15,7 +15,6 @@ import { AcademicDepartment } from '../academicDepartment/academicDepartment.mod
 import { TAdmins } from '../admin/admin.interface';
 import { generateAdminId } from '../admin/admin.utils';
 import { Admin } from '../admin/admin.model';
-import { verifyToken } from '../Auth/auth.utils';
 
 const createStudentIntoDB = async (
   password: string = config.password,
@@ -212,9 +211,18 @@ const getMe = async (userId: string, role: string) => {
   return result;
 };
 
+
+const changeStatus = async (id: string, payload: { status: string }) => {
+  const result = await User.findOneAndUpdate({id: id}, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const UserService = {
   createStudentIntoDB,
   createFacultyIntoDB,
   createAdminIntoDB,
   getMe,
+  changeStatus
 };
