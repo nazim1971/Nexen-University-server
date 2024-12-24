@@ -157,6 +157,9 @@ const forgetPassword = async (userId: string) => {
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!!!');
   }
+  if (!user.email) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user have no email!!!');
+  }
 
   const isDeleted = user?.isDeleted;
   // check if the user is already deleted
@@ -204,7 +207,34 @@ const resetPassword = async (
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!!!');
   }
 
-  
+  const decoded = jwt.verify(
+    token,
+    config.jwt,
+  ) as JwtPayload;
+
+  if (payload.id !== decoded.userId) {
+    console.log(payload.id, decoded.userId);
+    throw new AppError(httpStatus.FORBIDDEN, 'You are forbidden!');
+  }
+
+  //hash new password
+  const newHashedPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.slat),
+  );
+
+  await User.findOneAndUpdate(
+    {
+      id: decoded.userId,
+      role: decoded.role,
+    },
+    {
+      password: newHashedPassword,
+      needsPasswordChange: false,
+      passwordChangedAt: new Date(),
+    },
+  );
+
 }
 
 export const AuthService = {
