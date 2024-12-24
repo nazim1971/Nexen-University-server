@@ -174,11 +174,11 @@ const forgetPassword = async (userId: string) => {
       userId: user.id,
       role: user.role,
     };
-    const accessToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10m' });
+    const resetToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10m' });
   
-  const resetUILink = `http://localhost:5000?id=${user?.id}&token=${accessToken}`;
+  const resetUILink = `http://localhost:5000?id=${user?.id}&token=${resetToken}`;
 
-  console.log({AccessToken: resetUILink});
+  console.log({ResetToken: resetUILink});
 }
 
 // const resetPassword = async (
