@@ -54,12 +54,12 @@ const getMe = catchAsync(async (req, res) => {
   if(!token){
     throw new AppError(httpStatus.NOT_FOUND, 'Token not found')
   }
-    const result = await UserService.getMe(password, adminData);
+    const result = await UserService.getMe(token);
 
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
-      message: 'Admin is created successfully',
+      message: 'User Data revert successfully',
       data: result,
     });
 })

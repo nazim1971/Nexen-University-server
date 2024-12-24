@@ -15,6 +15,7 @@ import { AcademicDepartment } from '../academicDepartment/academicDepartment.mod
 import { TAdmins } from '../admin/admin.interface';
 import { generateAdminId } from '../admin/admin.utils';
 import { Admin } from '../admin/admin.model';
+import { verifyToken } from '../Auth/auth.utils';
 
 const createStudentIntoDB = async (
   password: string = config.password,
@@ -26,7 +27,7 @@ const createStudentIntoDB = async (
   userData.password = password;
 
   userData.role = 'student';
-  userData.email = payload.email
+  userData.email = payload.email;
 
   const admissionSemester = await academicSemester.findById(
     payload.admissionSemester,
@@ -75,21 +76,22 @@ const createStudentIntoDB = async (
   }
 };
 
-const createFacultyIntoDB = async (password: string = config.password, payload: TFaculty) => {
-
+const createFacultyIntoDB = async (
+  password: string = config.password,
+  payload: TFaculty,
+) => {
   const userData: Partial<Tuser> = {};
 
   userData.password = password;
 
   userData.role = 'faculty';
-  userData.email = payload.email
- 
-   // find academic department info
-   const academicDepartment = await AcademicDepartment.findById(
+  userData.email = payload.email;
+
+  // find academic department info
+  const academicDepartment = await AcademicDepartment.findById(
     payload.academicDepartment,
   );
- 
- 
+
   if (!academicDepartment) {
     throw new AppError(404, 'Academic department not found');
   }
@@ -131,15 +133,16 @@ const createFacultyIntoDB = async (password: string = config.password, payload: 
   }
 };
 
-
-const createAdminIntoDB = async (password: string = config.password, payload: TAdmins) => {
-
+const createAdminIntoDB = async (
+  password: string = config.password,
+  payload: TAdmins,
+) => {
   const userData: Partial<Tuser> = {};
 
   userData.password = password;
 
   userData.role = 'admin';
-  userData.email = payload.email
+  userData.email = payload.email;
 
   const session = await mongoose.startSession();
   try {
@@ -178,15 +181,41 @@ const createAdminIntoDB = async (password: string = config.password, payload: TA
   }
 };
 
-const getMe = async(id: string, role: string)=>{
-  const result =  await 
+const getMe = async (token: string) => {
+  const decoded = verifyToken(token, config.jwt);
 
-  return result
-}
+  const { userId, role } = decoded;
+
+  if (!userId || !role) {
+    throw new AppError( httpStatus.NOT_FOUND , 'Invalid token or missing user data');
+  }
+  // Define result and switch based on role
+  let result = null;
+  switch (role) {
+    case 'student':
+      result = await Student.findOne({ id: userId });
+      break;
+    case 'faculty':
+      result = await Faculty.findOne({ id: userId });
+      break;
+    case 'admin':
+      result = await Admin.findOne({ id: userId });
+      break;
+    default:
+      throw new Error('Invalid role');
+  }
+
+  // Handle if the user is not found
+  if (!result) {
+    throw new Error(`No ${role} found with ID: ${userId}`);
+  }
+
+  return result;
+};
 
 export const UserService = {
   createStudentIntoDB,
   createFacultyIntoDB,
   createAdminIntoDB,
-  getMe
+  getMe,
 };

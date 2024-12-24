@@ -6,6 +6,7 @@ import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../../utils/sendEmails';
+import { verifyToken } from './auth.utils';
 
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.isUserExistByCustomId(payload?.id);
@@ -207,10 +208,7 @@ const resetPassword = async (
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!!!');
   }
 
-  const decoded = jwt.verify(
-    token,
-    config.jwt,
-  ) as JwtPayload;
+  const decoded = verifyToken(token, config.jwt)
 
   if (payload.id !== decoded.userId) {
     console.log(payload.id, decoded.userId);
