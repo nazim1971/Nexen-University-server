@@ -5,6 +5,7 @@ import { TLoginUser } from './auth.interface';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { sendEmail } from '../../utils/sendEmails';
 
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.isUserExistByCustomId(payload?.id);
@@ -177,6 +178,7 @@ const forgetPassword = async (userId: string) => {
     const resetToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10m' });
   
   const resetUILink = `http://localhost:5000?id=${user?.id}&token=${resetToken}`;
+  sendEmail()
 
   console.log({ResetToken: resetUILink});
 }
