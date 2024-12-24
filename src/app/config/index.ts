@@ -36,6 +36,15 @@ class Config {
     if (!process.env.SMTP_PASS) {
       throw new Error('SMTP_PASS is required in .env file');
     }
+    if (!process.env.CLOUD_NAME) {
+      throw new Error('CLOUD_NAME is required in .env file');
+    }
+    if (!process.env.API_KEY) {
+      throw new Error('API_KEY is required in .env file');
+    }
+    if (!process.env.API_SECRET) {
+      throw new Error('API_SECRET is required in .env file');
+    }
   }
 
   // MongoDB connection method
@@ -75,6 +84,15 @@ class Config {
   }
   public get smtpPass(): string {
     return String(process.env.SMTP_PASS as string)
+  }
+  public get cloudName(): string {
+    return String(process.env.CLOUD_NAME as string)
+  }
+  public get cloudApiKey(): string {
+    return String(process.env.API_KEY as string)
+  }
+  public get cloudApiSecret(): string {
+    return String(process.env.API_SECRET as string)
   }
 }
 
