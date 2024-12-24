@@ -33,6 +33,9 @@ class Config {
     if (!process.env.RESET_PASS_UI_LINK) {
       throw new Error('RESET_PASS_UI_LINK is required in .env file');
     }
+    if (!process.env.SMTP_PASS) {
+      throw new Error('SMTP_PASS is required in .env file');
+    }
   }
 
   // MongoDB connection method
@@ -69,6 +72,9 @@ class Config {
   }
   public get resetUrl(): string {
     return String(process.env.RESET_PASS_UI_LINK as string)
+  }
+  public get smtpPass(): string {
+    return String(process.env.SMTP_PASS as string)
   }
 }
 
