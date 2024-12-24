@@ -27,4 +27,12 @@ router.post(
   validateMiddlewire(AdminValidation.createAdminValidationSchema),
   UserController.createAdmin,
 );
+
+//his his huss huss data
+router.post(
+  '/me', auth(USER_ROLE.admin,USER_ROLE.faculty,USER_ROLE.student),
+  UserController.getMe,
+);
+
+
 export const UserRoutes = router;

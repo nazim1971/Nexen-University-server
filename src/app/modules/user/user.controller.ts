@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { UserService } from './user.service';
 import { sendResponse } from '../../utils/sendResponse';
 import { catchAsync } from '../../utils/catchAsync';
+import { AppError } from '../../errors/AppError';
 
 
 const createStudent = catchAsync(async (req, res) => {
@@ -46,9 +47,27 @@ const createAdmin = catchAsync(async (req, res) => {
     });
 })
 
+const getMe = catchAsync(async (req, res) => {
+
+  const token = req.headers.authorization
+
+  if(!token){
+    throw new AppError(httpStatus.NOT_FOUND, 'Token not found')
+  }
+    const result = await UserService.getMe(password, adminData);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.CREATED,
+      message: 'Admin is created successfully',
+      data: result,
+    });
+})
+
 export const UserController = {
   createStudent,
   createFaculty,
-  createAdmin
+  createAdmin,
+  getMe
 };
  
