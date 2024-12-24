@@ -181,13 +181,12 @@ const createAdminIntoDB = async (
   }
 };
 
-const getMe = async (token: string) => {
-  const decoded = verifyToken(token, config.jwt);
-
-  const { userId, role } = decoded;
-
+const getMe = async (userId: string, role: string) => {
   if (!userId || !role) {
-    throw new AppError( httpStatus.NOT_FOUND , 'Invalid token or missing user data');
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Invalid token or missing user data',
+    );
   }
   // Define result and switch based on role
   let result = null;
