@@ -32,10 +32,10 @@ router.post(
   AuthController.forgetPassword,
 );
 
-// router.post(
-//   '/reset-password',
-//   validateMiddlewire(AuthValidation.forgetPasswordValidationSchema),
-//   AuthController.resetPassword,
-// );
+router.post(
+  '/reset-password',
+  validateMiddlewire(AuthValidation.forgetPasswordValidationSchema),
+  AuthController.resetPassword,
+);
 
 export const AuthenticationRoute = router;
