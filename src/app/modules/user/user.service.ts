@@ -60,6 +60,7 @@ const createStudentIntoDB = async (
     }
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id;
+    console.log('secret url12222');
     payload.profileImage = secure_url;
 
     //Create a student Transaction -> 2
