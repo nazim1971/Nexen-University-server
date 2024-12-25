@@ -1,45 +1,46 @@
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import config from '../config';
+import fs from 'fs'
+import multer from 'multer';
 
-export const sendImageToCloudDinary = () => {
-  (async function () {
-    // Configuration
-    cloudinary.config({
-      cloud_name: `${config.cloudName}`,
-      api_key: `${config.cloudApiKey}`,
-      api_secret: `${config.cloudApiSecret}`, // Click 'View API Keys' above to copy your API secret
-    });
+cloudinary.config({
+  cloud_name: config.cloudName,
+  api_key: config.cloudApiKey,
+  api_secret: config.cloudApiSecret,
+});
 
-    // Upload an image
-    const uploadResult = await cloudinary.uploader
-      .upload(
-        'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg',
-        {
-          public_id: 'shoes',
-        },
-      )
-      .catch((error) => {
-        console.log(error);
-      });
-
-    console.log(uploadResult);
-
-    // Optimize delivery by resizing and applying auto-format and auto-quality
-    const optimizeUrl = cloudinary.url('shoes', {
-      fetch_format: 'auto',
-      quality: 'auto',
-    });
-
-    console.log(optimizeUrl);
-
-    // Transform the image: auto-crop to square aspect_ratio
-    const autoCropUrl = cloudinary.url('shoes', {
-      crop: 'auto',
-      gravity: 'auto',
-      width: 500,
-      height: 500,
-    });
-
-    console.log(autoCropUrl);
-  })();
+export const sendImageToCloudinary = (imageName: string, path: string): Promise<UploadApiResponse> => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(
+      path,
+      { public_id: imageName },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        }
+        if (result) {
+          resolve(result);
+        }
+        fs.unlink(path, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('File is deleted.');
+          }
+        });
+      },
+    );
+  });
 };
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, process.cwd() + '/uploads/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  },
+});
+
+export const upload = multer({ storage: storage });

@@ -7,12 +7,21 @@ import { AdminValidation } from '../admin/admin.validation';
 import { auth } from '../../middlewires/auth';
 import { USER_ROLE } from './user.const';
 import { userValidation } from './user.validation';
+import { upload } from '../../utils/saveImgaeToCloudinary';
+import  { NextFunction, Request, Response } from 'express';
 
 const router = express.Router();
 
 
 router.post(
-  '/create-student', auth(USER_ROLE.admin) ,
+  '/create-student',
+  // auth(USER_ROLE.admin)  ,
+  upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
   validateMiddlewire(studentValidations.createStudentValidationSchema),
   UserController.createStudent,
 );
