@@ -17,6 +17,10 @@ const createEnrolledCourseInDB = async (userId: string, payload: TEnrolledCourse
         throw new AppError(httpStatus.NOT_FOUND, 'Offered course is not exist')
     }
 
+    if(isOfferedCourseExists.maxCapacity <= 0){
+        throw new AppError(httpStatus.BAD_REQUEST, 'Room is full')
+    }
+
     const student = await Student.findOne({id: userId}).select('id')
 
     if(!student){
@@ -27,8 +31,22 @@ const createEnrolledCourseInDB = async (userId: string, payload: TEnrolledCourse
         semesterRegistration: isOfferedCourseExists?.semesterRegistration,
         offeredCourse,
         student: student.id
-         
     })
+
+    if(!isStudentAlreadyEnrolled){
+        throw new AppError(httpStatus.CONFLICT, 'Student id already enrolled')
+    }
+
+
+
+    const result = await EnrolledCourse.create({
+
+    })
+    
+    if(!result){
+    throw new AppError(httpStatus.BAD_REQUEST, "Failed to enrolled in this course")
+    }
+    return result
 }
 
 export const EnrolledCourseService = {
