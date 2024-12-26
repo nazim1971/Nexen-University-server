@@ -3,6 +3,7 @@ import {
   TEnrolledCourse,
   TEnrolledCourseMarks,
 } from './enrolledCourse.interface';
+import { Grade } from './enrolledCourse.constant';
 
 const courseMarksSchema = new Schema<TEnrolledCourseMarks>(
   {
@@ -87,7 +88,7 @@ const enrolledCourseSchema = new Schema<TEnrolledCourse>({
   },
   grade: {
     type: String,
-    enum:['A', 'B', 'C', 'D', 'F', 'NA'],
+    enum:Grade,
     default: 'NA',
   },
   gradePoints: {
