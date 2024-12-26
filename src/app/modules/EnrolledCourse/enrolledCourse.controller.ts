@@ -5,7 +5,9 @@ import { EnrolledCourseService } from "./enrolledCourse.service";
 
 const createEnrolledCourse = catchAsync(
     async (req, res) => {
-       const result = await EnrolledCourseService.createEnrolledCourseInDB()
+
+        const userId = req.user.userId
+       const result = await EnrolledCourseService.createEnrolledCourseInDB(userId, payload)
        sendResponse(res, {
          statusCode: httpStatus.OK,
          success: true,
