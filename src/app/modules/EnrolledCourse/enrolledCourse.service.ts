@@ -7,7 +7,8 @@ import { Student } from "../student/student.model";
 import mongoose from "mongoose";
 
 const createEnrolledCourseInDB = async (userId: string, payload: TEnrolledCourse) =>{
-   
+    //step 1 - Check if the offered courses is exist
+    // step 2- 
 
     const {offeredCourse} = payload;
 
