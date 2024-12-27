@@ -4,6 +4,7 @@ const createEnrolledCourseValidationZodSchema = z.object({
   offeredCourse: z.string(),
 });
 
+//update validation
 const updateEnrolledCourseMarksValidationZodSchema = z.object({
   semesterRegistration: z.string(),
   offeredCourse: z.string(),

@@ -7,7 +7,7 @@ const createEnrolledCourse = catchAsync(
     async (req, res) => {
 
         const userId = req.user.userId
-       const result = await EnrolledCourseService.createEnrolledCourseInDB(userId, payload)
+       const result = await EnrolledCourseService.createEnrolledCourseInDB(userId, req.body)
        sendResponse(res, {
          statusCode: httpStatus.OK,
          success: true,
