@@ -5,6 +5,7 @@ import httpStatus from 'http-status';
 import EnrolledCourse from './enrolledCourse.model';
 import { Student } from '../student/student.model';
 import mongoose from 'mongoose';
+import { SemesterRegistration } from '../semesterRegistration/semesterRegistration.model';
 
 const createEnrolledCourseInDB = async (
   userId: string,
@@ -40,7 +41,17 @@ const createEnrolledCourseInDB = async (
   if (isStudentAlreadyEnrolled) {
     throw new AppError(httpStatus.CONFLICT, 'Student id already enrolled');
   }
-  //check total credit is
+  //check total credit is exceeds maxcredit
+
+  const semesterRegistration = await SemesterRegistration.findById(isOfferedCourseExists.semesterRegistration).select('maxCredit');
+
+  // total enrolled credit + new enrolled course credit > maxCredit
+
+  const enrolledCourses = await EnrolledCourse.aggregate([
+    {
+        $match
+    }
+  ])
 
   const session = await mongoose.startSession();
 
