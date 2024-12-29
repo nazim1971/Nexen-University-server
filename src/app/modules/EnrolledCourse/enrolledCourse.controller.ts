@@ -18,7 +18,7 @@ const createEnrolledCourse = catchAsync(async (req, res) => {
 });
 
 const updateEnrolledCourseMarks = catchAsync(async (req, res) => {
-  const facultyID = req.user.id;
+  const facultyID = req.user.userId;
   const result = await EnrolledCourseService.updateMarks(facultyID, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
