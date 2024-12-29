@@ -73,7 +73,7 @@ const createEnrolledCourseInDB = async (
     {
       $group: {
         _id: null,
-        totalEnrolledCredits: { $sum: '$enrolledCourseData.credits' },
+        totalEnrolledCredits: { $sum: '$enrolledCourseData.credit' },
       },
     },
     {
@@ -84,9 +84,15 @@ const createEnrolledCourseInDB = async (
     },
   ]);
 
+
+  console.log('Enrolled Courses:', enrolledCourses);
+
+
   //  total enrolled credits + new enrolled course credit > maxCredit
   const totalCredits =
     enrolledCourses.length > 0 ? enrolledCourses[0].totalEnrolledCredits : 0;
+
+    console.log(totalCredits);
 
   if (totalCredits && maxCredit && totalCredits + currentCredit > maxCredit) {
     throw new AppError(
