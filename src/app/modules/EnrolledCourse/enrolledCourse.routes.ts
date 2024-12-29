@@ -8,3 +8,5 @@ import { USER_ROLE } from "../user/user.const";
 export const EnrolledCourseRoutes = Router();
 
 EnrolledCourseRoutes.post('/create-enrolled-course',auth(USER_ROLE.student),validateMiddlewire(EnrolledCourseValidations.createEnrolledCourseValidationZodSchema), EnrolledCourseController.createEnrolledCourse)
+
+EnrolledCourseRoutes.patch('/update-marks', auth(USER_ROLE.faculty), validateMiddlewire(EnrolledCourseValidations.updateEnrolledCourseMarksValidationZodSchema), EnrolledCourseController.updateEnrolledCourseMarks)

@@ -1,6 +1,6 @@
 import { AppError } from '../../errors/AppError';
 import { OfferedCourse } from '../offeredCourse/offeredCourse.model';
-import { TEnrolledCourse } from './enrolledCourse.interface';
+import { TEnrolledCourse, TEnrolledCourseMarks } from './enrolledCourse.interface';
 import httpStatus from 'http-status';
 import EnrolledCourse from './enrolledCourse.model';
 import { Student } from '../student/student.model';
@@ -85,7 +85,6 @@ const createEnrolledCourseInDB = async (
   ]);
 
 
-  console.log('Enrolled Courses:', enrolledCourses);
 
 
   //  total enrolled credits + new enrolled course credit > maxCredit
@@ -145,6 +144,11 @@ const createEnrolledCourseInDB = async (
   }
 };
 
+
+const updateMarks = async (payload: Partial<TEnrolledCourseMarks>)=> {};
+
+
 export const EnrolledCourseService = {
   createEnrolledCourseInDB,
+  updateMarks
 };
