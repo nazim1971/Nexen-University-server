@@ -17,7 +17,10 @@ class Application {
   private middleware() {
     this.App.use(express.json());
     this.App.use(cookieParser())
-    this.App.use(cors());
+    this.App.use(cors({
+      origin: 'http://localhost:5173',
+      credentials: true
+    }));
   }
 
   private routes() {

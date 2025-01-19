@@ -41,16 +41,17 @@ const loginUser = async (payload: TLoginUser) => {
     userId: user.id,
     role: user.role,
   };
-  const accessToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10d' });
+  const accessToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '7d' });
 
-  const refreshToken = jwt.sign(jwtPayload, config.jwtRef, { expiresIn: '365d' });
+  const refreshToken = jwt.sign(jwtPayload, config.jwtRef, {
+    expiresIn: '10d',
+  });
 
   return {
     accessToken,
     refreshToken,
     needsPasswordChange: user?.needPasswordChange,
   };
-
 };
 
 const changePasswordIntoDB = async (
@@ -104,12 +105,15 @@ const changePasswordIntoDB = async (
   return null;
 };
 
-const refreshToken = async(token: string)=>{
-   // checking if the given token is valid
-   const decoded = jwt.verify(
-    token,
-    config.jwtRef,
-  ) as JwtPayload;
+const refreshToken = async (token: string) => {
+  // checking if the given token is valid
+  let decoded: JwtPayload;
+
+  try {
+    decoded = jwt.verify(token, config.jwtRef) as JwtPayload;
+  } catch (error) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+  }
 
   const { userId, iat } = decoded;
 
@@ -150,7 +154,7 @@ const refreshToken = async(token: string)=>{
   return {
     accessToken,
   };
-}
+};
 
 const forgetPassword = async (userId: string) => {
   const user = await User.isUserExistByCustomId(userId);
@@ -174,17 +178,16 @@ const forgetPassword = async (userId: string) => {
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!!!');
   }
 
-    //create token and send to the client
-    const jwtPayload = {
-      userId: user.id,
-      role: user.role,
-    };
-    const resetToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10m' });
-  
-  const resetUILink = `${config.resetUrl}?id=${user?.id}&token=${resetToken}`;
-  sendEmail(user.email,resetUILink)
+  //create token and send to the client
+  const jwtPayload = {
+    userId: user.id,
+    role: user.role,
+  };
+  const resetToken = jwt.sign(jwtPayload, config.jwt, { expiresIn: '10d' });
 
-}
+  const resetUILink = `${config.resetUrl}?id=${user?.id}&token=${resetToken}`;
+  sendEmail(user.email, resetUILink);
+};
 
 const resetPassword = async (
   payload: { id: string; newPassword: string },
@@ -208,7 +211,7 @@ const resetPassword = async (
     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked!!!');
   }
 
-  const decoded = verifyToken(token, config.jwt)
+  const decoded = verifyToken(token, config.jwt);
 
   if (payload.id !== decoded.userId) {
     console.log(payload.id, decoded.userId);
@@ -232,13 +235,12 @@ const resetPassword = async (
       passwordChangedAt: new Date(),
     },
   );
-
-}
+};
 
 export const AuthService = {
   loginUser,
   changePasswordIntoDB,
   refreshToken,
   forgetPassword,
-  resetPassword
+  resetPassword,
 };
